@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>lista-produto</ion-title>
+    <ion-button slot="end" (click) = "presentModal()">
+      <ion-icon  name="cart-outline"></ion-icon>
+    </ion-button>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list-header>
+      Lista dos produtos
+    </ion-list-header>
+
+      <ion-card class="card" lines="inset" *ngFor="let data of Data; index as i">
+        <ion-card-header>
+          <ion-card-subtitle>{{data.nome}}</ion-card-subtitle>
+          <ion-card-title>R${{data.preco}}</ion-card-title>
+        </ion-card-header>
+      
+        <ion-card-content>
+          <div class="item-note" item-end>
+            <ion-icon name="create" style="zoom:2.0" routerLink="/altera-produto/{{data.id}}"></ion-icon>        
+            <ion-icon name="trash" style="zoom:2.0" (click)="deleteProduto(data.id)"></ion-icon>
+            <ion-icon name="add-outline" style="zoom:2.0" (click) = "addCarrinho(i)"></ion-icon>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+</ion-content>
