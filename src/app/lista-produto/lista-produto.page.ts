@@ -4,6 +4,14 @@ import { Produto, ProdutoService } from "../services/produto.service";
 import { ToastController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { CarrinhoModalPage } from '../carrinho-modal/carrinho-modal.page';
+import { BehaviorSubject } from 'rxjs';
+
+interface ItemCarrinho {
+  id: number;
+  nome: String;
+  preco: number;
+  qtndItem: number;
+};  
 
 @Component({
   selector: 'app-lista-produto',
@@ -21,8 +29,9 @@ export class ListaProdutoPage implements OnInit {
   ) { }
 
   Data: Produto[] = []
-  produtoCarrinho: Produto[] = []
-
+  produtoCarrinho: ItemCarrinho[] = []
+  countCarrinho = 0;
+  item: ItemCarrinho[] = [];
 
   ngOnInit() {
     this.db.dbState().subscribe((res) => {
@@ -45,10 +54,24 @@ export class ListaProdutoPage implements OnInit {
   }
 
   addCarrinho (i) {
-    this.produtoCarrinho.push(this.Data[i]);
+    console.log(this.produtoCarrinho)
+    const productInCart = this.produtoCarrinho.findIndex((item) => item.id === this.Data[i].id)
+    if (productInCart < 0){ 
+      this.produtoCarrinho.push({
+        id: this.Data[i].id,
+        nome: this.Data[i].nome,
+        preco: this.Data[i].preco,
+        qtndItem: 1
+      });
+    } else {
+      this.produtoCarrinho[productInCart].qtndItem += 1;
+    }
+    this.countCarrinho++;
+    console.log(productInCart)
+    console.log(this.produtoCarrinho)
   }
 
-  
+
 
   async presentModal() {
     const modal = await this.modalCtrl.create({
@@ -59,3 +82,4 @@ export class ListaProdutoPage implements OnInit {
   }
 
 }
+
