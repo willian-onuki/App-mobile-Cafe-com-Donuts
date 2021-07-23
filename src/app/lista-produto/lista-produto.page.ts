@@ -4,13 +4,14 @@ import { Produto, ProdutoService } from "../services/produto.service";
 import { ToastController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 import { CarrinhoModalPage } from '../carrinho-modal/carrinho-modal.page';
-import { BehaviorSubject } from 'rxjs';
+import { Storage } from '@ionic/storage';
 
-interface ItemCarrinho {
+
+export interface ItemCarrinho {
   id: number;
   nome: String;
   preco: number;
-  qtndItem: number;
+  qntdItem: number;
 };  
 
 @Component({
@@ -25,7 +26,8 @@ export class ListaProdutoPage implements OnInit {
     private db: BdService,
     private produtoService: ProdutoService,
     private toast: ToastController,
-    public modalCtrl: ModalController
+    public modalCtrl: ModalController,
+    private storage: Storage
   ) { }
 
   Data: Produto[] = []
@@ -55,28 +57,32 @@ export class ListaProdutoPage implements OnInit {
 
   addCarrinho (i) {
     console.log(this.produtoCarrinho)
-    const productInCart = this.produtoCarrinho.findIndex((item) => item.id === this.Data[i].id)
+    const productInCart = this.produtoCarrinho.findIndex((item) => item.id === this.Data[i].id) // Retorna um número negativo se não existir na lista
     if (productInCart < 0){ 
       this.produtoCarrinho.push({
         id: this.Data[i].id,
         nome: this.Data[i].nome,
         preco: this.Data[i].preco,
-        qtndItem: 1
+        qntdItem: 1
       });
     } else {
-      this.produtoCarrinho[productInCart].qtndItem += 1;
+      this.produtoCarrinho[productInCart].qntdItem += 1;
     }
     this.countCarrinho++;
-    console.log(productInCart)
-    console.log(this.produtoCarrinho)
   }
-
-
 
   async presentModal() {
     const modal = await this.modalCtrl.create({
       component: CarrinhoModalPage,
-      cssClass: 'my-custom-modal-css'
+      cssClass: 'my-custom-modal-css',
+      componentProps: {
+        listaProduto: this.produtoCarrinho
+      }
+    });
+    modal.onDidDismiss().then((data) => {
+      // this.countCarrinho = data.qntdCarrinho
+      console.log(data)
+      console.log("")
     });
     return await modal.present();
   }

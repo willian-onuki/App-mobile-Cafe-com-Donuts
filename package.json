@@ -23,6 +23,7 @@
     "@ionic-native/sqlite": "^5.34.0",
     "@ionic-native/sqlite-porter": "^5.34.0",
     "@ionic/angular": "^5.5.2",
+    "@ionic/storage-angular": "^3.0.6",
     "cordova-android": "9.1.0",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

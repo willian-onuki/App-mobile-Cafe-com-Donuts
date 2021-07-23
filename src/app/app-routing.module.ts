@@ -28,6 +28,10 @@ const routes: Routes = [
     path: 'carrinho-modal',
     loadChildren: () => import('./carrinho-modal/carrinho-modal.module').then( m => m.CarrinhoModalPageModule)
   },
+  {
+    path: 'forma-pagamento-modal',
+    loadChildren: () => import('./forma-pagamento-modal/forma-pagamento-modal.module').then( m => m.FormaPagamentoModalPageModule)
+  },
 ];
 
 @NgModule({

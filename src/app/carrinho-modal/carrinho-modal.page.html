@@ -1,3 +1,24 @@
 <ion-content>
-  
+    <ion-card class="card" lines="inset" *ngFor="let p of listaProduto;index as i">
+        <ion-card-header>
+          <ion-card-subtitle>{{p.nome}}</ion-card-subtitle>
+          <ion-card-title>Unit. R${{p.preco}}</ion-card-title>
+          <ion-card-title>Tot. R${{p.preco * p.qntdItem}}</ion-card-title>
+        </ion-card-header>
+      
+        <ion-card-content>
+          <div class="item-note" item-end>
+            <ion-icon name="remove-outline" style="zoom:2.0" (click) = "retirar(i)"></ion-icon>       
+            <ion-card-subtitle>{{p.qntdItem}}</ion-card-subtitle>
+            <ion-icon name="add-outline" style="zoom:2.0" (click) = "adicionar(i)"></ion-icon>
+          </div>
+        </ion-card-content>
+      </ion-card>
+
+      <ion-card-title>Total: R${{calculaTotal()}}</ion-card-title>
+
+      <section>
+        <ion-button expand="block" (click) = "presentModal2()">Fazer pagamento</ion-button>
+      </section>
+
 </ion-content>
